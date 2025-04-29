@@ -33,9 +33,6 @@ public class TaskEntity {
 
     private String createdBy;
 
-
-
-
     public UUID getTaskId() { return taskId; }
     public void setTaskId(UUID taskId) { this.taskId = taskId; }
 

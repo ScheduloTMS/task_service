@@ -1,5 +1,6 @@
 package com.example.task_service.Entity;
 
+import com.example.task_service.DTO.UserDTO;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -26,62 +27,111 @@ public class AssignmentEntity {
     @Column(nullable = true)
     private LocalDateTime deletedAt;
 
-
-
     @ManyToOne
     @MapsId("taskId")
     @JoinColumn(name = "task_id", referencedColumnName = "task_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private TaskEntity task;
 
-
-    @ManyToOne
-    @MapsId("userId")
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private Users student;
-
+    // Replace the Users dependency with simple fields for userId, name, and photo
+    private String studentUserId;
+    private String studentName;
+    private String studentPhoto;
 
     public AssignmentEntity() {}
 
-    public AssignmentEntity(UUID taskId, String userId, byte[] fileUploads, String submissionStatus, String score) {
+    public AssignmentEntity(UUID taskId, String userId, byte[] fileUploads, String submissionStatus, String score, String studentUserId, String studentName, String studentPhoto) {
         this.id = new AssignmentId(taskId, userId);
         this.fileUploads = fileUploads;
         this.submissionStatus = submissionStatus;
         this.submittedDate = LocalDateTime.now();
         this.score = score;
         this.updatedAt = null;
-
+        this.studentUserId = studentUserId;
+        this.studentName = studentName;
+        this.studentPhoto = studentPhoto;
     }
 
-    public Users getStudent() {
-        return student;
+    // Getters and setters for the new fields
+    public String getStudentUserId() {
+        return studentUserId;
     }
 
-    public void setStudent(Users student) {
-        this.student = student;
+    public void setStudentUserId(String studentUserId) {
+        this.studentUserId = studentUserId;
     }
 
+    public String getStudentName() {
+        return studentName;
+    }
 
-    public AssignmentId getId() { return id; }
-    public void setId(AssignmentId id) { this.id = id; }
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
 
-    public byte[] getFileUploads() { return fileUploads; }
-    public void setFileUploads(byte[] fileUploads) { this.fileUploads = fileUploads; }
+    public String getStudentPhoto() {
+        return studentPhoto;
+    }
 
-    public String getSubmissionStatus() { return submissionStatus; }
-    public void setSubmissionStatus(String submissionStatus) { this.submissionStatus = submissionStatus; }
+    public void setStudentPhoto(String studentPhoto) {
+        this.studentPhoto = studentPhoto;
+    }
 
-    public LocalDateTime getSubmittedDate() { return submittedDate; }
-    public void setsubmittedDate(LocalDateTime submittedDate) { this.submittedDate = submittedDate; }
+    public AssignmentId getId() {
+        return id;
+    }
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public void setId(AssignmentId id) {
+        this.id = id;
+    }
 
-    public LocalDateTime getDeletedAt() { return deletedAt; }
-    public void setDeletedAt(LocalDateTime deletedAt) { this.deletedAt = deletedAt; }
+    public byte[] getFileUploads() {
+        return fileUploads;
+    }
 
-    public String getScore() { return score; }
-    public void setScore(String score) { this.score = score; }
+    public void setFileUploads(byte[] fileUploads) {
+        this.fileUploads = fileUploads;
+    }
+
+    public String getSubmissionStatus() {
+        return submissionStatus;
+    }
+
+    public void setSubmissionStatus(String submissionStatus) {
+        this.submissionStatus = submissionStatus;
+    }
+
+    public LocalDateTime getSubmittedDate() {
+        return submittedDate;
+    }
+
+    public void setsubmittedDate(LocalDateTime submittedDate) {
+        this.submittedDate = submittedDate;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
 
     public void markUpdated() {
         this.updatedAt = LocalDateTime.now();
@@ -95,4 +145,15 @@ public class AssignmentEntity {
         this.task = task;
     }
 
+    // Corrected getStudent() method to return UserDTO
+    public UserDTO getStudent() {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserId(this.studentUserId);
+        userDTO.setName(this.studentName);
+        userDTO.setPhoto(this.studentPhoto);
+        userDTO.setEmail(null); // Email is not available in the AssignmentEntity, so setting it to null
+        userDTO.setRole(null);  // Role is not available in the AssignmentEntity, so setting it to null
+        userDTO.setAuthorities(null);  // Authorities are not available, setting to null
+        return userDTO;
+    }
 }

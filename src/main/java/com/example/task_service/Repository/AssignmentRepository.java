@@ -26,6 +26,6 @@ public interface AssignmentRepository extends JpaRepository<AssignmentEntity, As
 
     List<AssignmentEntity> findById_UserIdAndDeletedAtIsNull(String userId);
 
-    @Query("SELECT u FROM Users u JOIN AssignmentEntity a ON u.id = a.id.userId WHERE a.id.taskId = :taskId")
-    List<Users> findStudentsByTaskId(@Param("taskId") UUID taskId);
+//    @Query("SELECT u FROM Users u JOIN AssignmentEntity a ON u.id = a.id.userId WHERE a.id.taskId = :taskId")
+//    List<Users> findStudentsByTaskId(@Param("taskId") UUID taskId);
 }
